@@ -20,7 +20,7 @@ jobs:
           python-version: "3.11.9"
 
       - name: Instalar dependencias
-        run: pip install -r requirements.txt || echo "No hay dependencias"
+        run: pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Ejecutar el script
         run: python main.py
