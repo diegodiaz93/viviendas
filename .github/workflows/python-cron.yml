@@ -1,0 +1,26 @@
+name: Ejecutar Script Python Automáticamente
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # Se ejecuta cada hora (ajústalo como necesites)
+
+  workflow_dispatch:  # Permite ejecutar manualmente desde GitHub
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt || echo "No hay dependencias"
+
+      - name: Ejecutar el script
+        run: python main.py
