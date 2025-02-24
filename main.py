@@ -7,25 +7,29 @@ from email.mime.text import MIMEText
 URL = "https://www.prygesa.es/obra-nueva/madrid/simancas/julian-camarillo-passivhaus-peraleda-urban-s-coop"
 
 # Función para enviar un email si hay pisos disponibles
-def enviar_notificacion(pisos):
-    remitente = "diego-dc93@hotmail.es"
-    destinatario = "diego-dc93@hotmail.es"
-    asunto = "🏠 ¡Nuevo piso disponible de 2 habitaciones!"
-    cuerpo = f"Se han encontrado nuevos pisos de 2 habitaciones:\n\n" + "\n".join(pisos) + f"\n\nRevisar en {URL}"
-   
+def enviar_notificacion(pisos, asunto, cuerpo):
+    remitente = "diegoeroee@gmail.com"
+    destinatario = "diegoeroee@gmail.com"
     mensaje = MIMEText(cuerpo)
     mensaje["Subject"] = asunto
     mensaje["From"] = remitente
     mensaje["To"] = destinatario
-   
-    # Configuración del servidor SMTP de Outlook
-    smtp = smtplib.SMTP("smtp.office365.com", 587)
+
+    # Configuración del servidor SMTP de Google Gmail
+    smtp = smtplib.SMTP("smtp.gmail.com", 587)
     smtp.starttls()
-    smtp.login(remitente, "rizpdfjeodhkjogi")
-    smtp.sendmail(remitente, destinatario, mensaje.as_string())
+    smtp.login("diegoeroee@gmail.com", "oygn zkln fmza jkij")  # Usar la contraseña de aplicación
+    response = smtp.sendmail(remitente, destinatario, mensaje.as_string())
+    print(response)
     smtp.quit()
-   
+
     print("📩 Notificación enviada a tu correo.")
+
+# Función para enviar correo informativo si no hay pisos de 2 habitaciones
+def enviar_no_hay_piso_2_habitaciones():
+    asunto = "🏠 Mala suerte: No se encontraron pisos de 2 habitaciones"
+    cuerpo = f"¡Parece que hoy no hay suerte! No se han encontrado pisos de 2 habitaciones en {URL}.\n\nRevisa más tarde."
+    enviar_notificacion([], asunto, cuerpo)
 
 # Obtener el contenido HTML
 response = requests.get(URL)
@@ -39,7 +43,7 @@ if tabla:
     for fila in tabla.find_all("tr")[1:]:
         columnas = fila.find_all("td")
 
-        if len(columnas) >= 6:  
+        if len(columnas) >= 6:
             dormitorios = columnas[0].text.strip()  # Número de habitaciones
             tipologia = columnas[1].text.strip()
             superficie = columnas[2].text.strip()
@@ -47,7 +51,6 @@ if tabla:
             coste = columnas[4].text.strip()
             plano_url = columnas[5].find("a")["href"] if columnas[5].find("a") else "No disponible"
 
-           
             viviendas.append({
                 "Dormitorios": dormitorios,
                 "Tipología": tipologia,
@@ -70,8 +73,13 @@ if tabla:
 
         # Si hay pisos de 2 habitaciones, enviar notificación
         if pisos_2_habitaciones:
-            enviar_notificacion(pisos_2_habitaciones)
+            enviar_notificacion(pisos_2_habitaciones, "🏠 ¡Nuevo piso disponible de 2 habitaciones!", 
+                                f"Se han encontrado nuevos pisos de 2 habitaciones:\n\n" + "\n".join(pisos_2_habitaciones) + f"\n\nRevisar en {URL}")
+        else:
+            # Si no hay pisos de 2 habitaciones, enviar mensaje informativo
+            enviar_no_hay_piso_2_habitaciones()
     else:
         print("🚫 No hay pisos disponibles de 1 ni 2 habitaciones.")
+        enviar_no_hay_piso_2_habitaciones()
 else:
     print("❌ No se encontró la tabla con id='tablepress-249'")
