@@ -3,7 +3,6 @@ name: Ejecutar Script Python Automáticamente
 on:
   schedule:
     - cron: "0 * * * *"  # Se ejecuta cada hora (ajústalo como necesites)
-
   workflow_dispatch:  # Permite ejecutar manualmente desde GitHub
 
 jobs:
@@ -23,4 +22,6 @@ jobs:
         run: pip install --upgrade pip && pip install -r requirements.txt
 
       - name: Ejecutar el script
+        env:
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}  # Se pasa el secreto como variable de entorno
         run: python main.py

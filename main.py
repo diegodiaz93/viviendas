@@ -15,10 +15,17 @@ def enviar_notificacion(pisos, asunto, cuerpo):
     mensaje["From"] = remitente
     mensaje["To"] = destinatario
 
+    # Obtener la contraseña del secreto de GitHub
+    password = os.environ.get("EMAIL_PASSWORD")
+
+    if password is None:
+        print("Error: La contraseña no está definida.")
+        return
+
     # Configuración del servidor SMTP de Google Gmail
     smtp = smtplib.SMTP("smtp.gmail.com", 587)
     smtp.starttls()
-    smtp.login("diegoeroee@gmail.com", "oygn zkln fmza jkij")  # Usar la contraseña de aplicación
+    smtp.login("diegoeroee@gmail.com", password)  # Usar la contraseña de aplicación
     response = smtp.sendmail(remitente, destinatario, mensaje.as_string())
     print(response)
     smtp.quit()
