@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
+import os
 import smtplib
 from email.mime.text import MIMEText
 
 # URL de la página
 URL = "https://www.prygesa.es/obra-nueva/madrid/simancas/julian-camarillo-passivhaus-peraleda-urban-s-coop"
+
+response = requests.get(URL, verify=False)
 
 # Función para enviar un email si hay pisos disponibles
 def enviar_notificacion(pisos, asunto, cuerpo):
@@ -17,7 +20,7 @@ def enviar_notificacion(pisos, asunto, cuerpo):
 
     # Obtener la contraseña del secreto de GitHub
     password = os.environ.get("EMAIL_PASSWORD")
-
+    
     if password is None:
         print("Error: La contraseña no está definida.")
         return
