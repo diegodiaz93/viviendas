@@ -2,7 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import smtplib
+import urllib3
 from email.mime.text import MIMEText
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # URL de la página
 URL = "https://www.prygesa.es/obra-nueva/madrid/simancas/julian-camarillo-passivhaus-peraleda-urban-s-coop"
