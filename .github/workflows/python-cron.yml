@@ -2,7 +2,7 @@ name: Ejecutar Script Python Automáticamente
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Se ejecuta cada hora (ajústalo como necesites)
+    - cron: "0 7-23 * * *"  # Se ejecuta cada hora de 7 AM a 11 PM (UTC)
   workflow_dispatch:  # Permite ejecutar manualmente desde GitHub
 
 jobs:
