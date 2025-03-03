@@ -40,7 +40,7 @@ def enviar_notificacion(pisos, asunto, cuerpo):
 
 # Función para enviar correo informativo si no hay pisos de 2 habitaciones
 def enviar_no_hay_piso_2_habitaciones():
-    asunto = "🏠 Mala suerte: No se encontraron pisos de 2 habitaciones"
+    asunto = "❌ Mala suerte: No se encontraron pisos de 2 habitaciones"
     cuerpo = f"¡Parece que hoy no hay suerte! No se han encontrado pisos de 2 habitaciones en {URL}.\n\nRevisa más tarde."
     enviar_notificacion([], asunto, cuerpo)
 
